@@ -1,0 +1,1145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miora — A little world of your own</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --wine: #4b1728;
+  --wine-light: #702c43;
+  --cream: #f8f3eb;
+  --paper: #fffdf8;
+  --gold: #b18a50;
+  --text: #38252a;
+  --muted: #927f7e;
+  --border: #eadfd5;
+  --shadow: 0 12px 35px rgba(65, 25, 39, .08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+
+button, input, textarea { font: inherit; }
+
+button { cursor: pointer; }
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 245px;
+  background: var(--wine);
+  color: white;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  letter-spacing: 2px;
+  margin: 0 0 4px;
+}
+
+.tagline {
+  color: #d7bdad;
+  font-size: 11px;
+  letter-spacing: 1px;
+  margin-bottom: 42px;
+}
+
+.nav-label {
+  color: #c6a9a9;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin: 15px 10px;
+}
+
+.nav-btn {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  color: #eadde0;
+  text-align: left;
+  padding: 13px 12px;
+  border-radius: 10px;
+  margin: 3px 0;
+  font-size: 13px;
+  transition: .2s;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  background: rgba(255,255,255,.13);
+  color: white;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  color: #d7bdad;
+  font-size: 11px;
+  line-height: 1.7;
+  padding: 15px 10px;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 35px 5%;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.topbar small {
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.topbar h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  margin: 5px 0;
+}
+
+.profile-dot {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #ead8d0;
+  color: var(--wine);
+  display: grid;
+  place-items: center;
+  font-family: 'Playfair Display', serif;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+.hero {
+  background: var(--wine);
+  color: white;
+  border-radius: 18px;
+  padding: 45px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.hero:after {
+  content: "✦";
+  position: absolute;
+  right: 45px;
+  top: 15px;
+  font-size: 110px;
+  color: rgba(255,255,255,.10);
+}
+
+.eyebrow {
+  color: #d9b98d;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(30px, 5vw, 48px);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 15px 0;
+  max-width: 600px;
+}
+
+.hero p {
+  color: #e5cfd0;
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 470px;
+}
+
+.hero button, .primary-btn {
+  background: #d6b77e;
+  color: #3d202b;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 25px;
+  font-weight: 500;
+  margin: 35px 0 17px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 23px;
+  box-shadow: var(--shadow);
+}
+
+.card small {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 23px;
+  margin: 12px 0 8px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.counter {
+  font-family: 'Playfair Display', serif;
+  color: var(--wine);
+  font-size: 45px;
+  margin-top: 8px;
+}
+
+.page-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 35px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.page-intro {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.form-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  padding: 25px;
+  border-radius: 15px;
+  max-width: 700px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin: 16px 0 7px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  color: var(--text);
+}
+
+input:focus, textarea:focus {
+  border-color: var(--gold);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.primary-btn {
+  background: var(--wine);
+  color: white;
+}
+
+.secondary-btn, .delete-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--wine);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 11px;
+  margin: 5px 5px 0 0;
+}
+
+.delete-btn { color: #a13c4b; }
+
+.entry {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 12px 0;
+  max-width: 700px;
+}
+
+.entry h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.entry p {
+  white-space: pre-wrap;
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+.entry small { color: var(--muted); }
+
+.mood-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.mood {
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 12px;
+  padding: 14px;
+  min-width: 85px;
+}
+
+.mood.selected {
+  border-color: var(--wine);
+  background: #f4e8e8;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 20px 0;
+}
+
+.note {
+  background: #f4e9d9;
+  border-left: 3px solid var(--gold);
+  padding: 14px;
+  color: #725a4b;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 55px;
+  padding-bottom: 20px;
+}
+
+@media(max-width: 750px) {
+  .app { flex-direction: column; }
+  .sidebar { width: 100%; padding: 18px; }
+  .logo { font-size: 28px; }
+  .tagline { margin-bottom: 15px; }
+  .nav-label, .sidebar-bottom { display: none; }
+  .sidebar nav {
+    display: flex;
+    overflow-x: auto;
+    gap: 5px;
+  }
+  .nav-btn {
+    white-space: nowrap;
+    width: auto;
+    padding: 10px;
+  }
+  .main { padding: 22px 17px; }
+  .hero { padding: 28px 23px; }
+  .grid { grid-template-columns: 1fr; }
+  .topbar { margin-bottom: 25px; }
+}
+.dedication {
+  background: #fffdf8;
+  border: 1px solid #d9c5a5;
+  outline: 1px solid #eadfd5;
+  outline-offset: -7px;
+  border-radius: 15px;
+  padding: 30px 25px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.dedication-label {
+  color: #b18a50;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.dedication h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  color: #4b1728;
+  font-weight: 500;
+  margin: 15px 0 5px;
+}
+
+.dedication p {
+  color: #927f7e;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.dedication-line {
+  width: 55px;
+  height: 1px;
+  background: #b18a50;
+  margin: 18px auto;
+}
+
+.dedication .dedication-message {
+  color: #4b1728;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-style: italic;
+}
+
+.dedication-heart {
+  display: block;
+  color: #9b5968;
+  font-size: 25px;
+  margin-top: 12px;
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">Miora</div>
+    <div class="tagline">A LITTLE WORLD OF YOUR OWN</div>
+
+    <div class="nav-label">YOUR SPACE</div>
+    <nav>
+      <button class="nav-btn active" data-page="home">⌂ &nbsp; Home</button>
+      <button class="nav-btn" data-page="together">♡ &nbsp; Together</button>
+      <button class="nav-btn" data-page="memories">✧ &nbsp; Memories</button>
+      <button class="nav-btn" data-page="moods">☾ &nbsp; Moods</button>
+      <button class="nav-btn" data-page="letters">✉ &nbsp; Letters</button>
+      <button class="nav-btn" data-page="diary">▤ &nbsp; My diary</button>
+      <button class="nav-btn" data-page="settings">⚙ &nbsp; Settings</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      Made of little moments.<br>
+      Kept in one little world. ✦
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <small>YOUR PERSONAL SPACE</small>
+        <h2 id="topGreeting">Welcome to Miora</h2>
+      </div>
+      <div class="profile-dot">M</div>
+    </div>
+
+    <!-- HOME -->
+    <section class="page active" id="home">
+      <div class="dedication">
+  <span class="dedication-label">A SPECIAL DEDICATION</span>
+  <h2>For Maan Bhavsar</h2>
+  <p>With love, from Myra Sharma</p>
+  <div class="dedication-line"></div>
+  <p class="dedication-message">
+    A little world made with love, to celebrate
+    our first love anniversary.
+  </p>
+  <span class="dedication-heart">♡</span>
+</div>
+      <div class="hero">
+        <div class="eyebrow">A PLACE FOR YOUR LITTLE THINGS</div>
+        <h1>Your story deserves<br>a beautiful place.</h1>
+        <p>
+          Keep your memories, little notes, moods and meaningful
+          moments together. Your own quiet corner of the world.
+        </p>
+        <button onclick="showPage('memories')">Explore your memories →</button>
+      </div>
+
+      <h2 class="section-title">A little overview</h2>
+
+      <div class="grid">
+        <div class="card">
+          <small>TIME TOGETHER</small>
+          <div class="counter" id="homeDays">—</div>
+          <p>Days since your special date</p>
+        </div>
+
+        <div class="card">
+          <small>YOUR MEMORIES</small>
+          <h3 id="memoryCount">0 memories</h3>
+          <p>Every little moment matters.</p>
+        </div>
+
+        <div class="card">
+          <small>YOUR LETTERS</small>
+          <h3 id="letterCount">0 letters</h3>
+          <p>Words worth keeping.</p>
+        </div>
+
+        <div class="card">
+          <small>YOUR PRIVATE DIARY</small>
+          <h3 id="diaryCount">0 entries</h3>
+          <p>A space just for your thoughts.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        ✦ Miora is your little collection of moments.
+        Make it yours, one memory at a time.
+      </div>
+    </section>
+
+    <!-- TOGETHER -->
+    <section class="page" id="together">
+      <h1 class="page-heading">Your story ♡</h1>
+      <p class="page-intro">A little reminder of how far you've come.</p>
+
+      <div class="card">
+        <small>YOUR SPECIAL DATE</small>
+        <h3 id="coupleNames">Your names go here</h3>
+        <div class="counter" id="togetherDays">—</div>
+        <p>Beautiful days and counting.</p>
+      </div>
+
+      <div class="note">
+        Your names and special date can be changed in Settings.
+      </div>
+    </section>
+
+    <!-- MEMORIES -->
+    <section class="page" id="memories">
+      <h1 class="page-heading">Memories ✧</h1>
+      <p class="page-intro">Little moments you never want to lose.</p>
+
+      <div class="form-card">
+        <h3>Add a memory</h3>
+
+        <label>Memory title</label>
+        <input id="memoryTitle" placeholder="A beautiful little moment">
+
+        <label>Date</label>
+        <input id="memoryDate" type="date">
+
+        <label>Your memory</label>
+        <textarea id="memoryText" placeholder="Write about this moment..."></textarea>
+
+        <label>Photo (optional)</label>
+        <input id="memoryPhoto" type="file" accept="image/*">
+
+        <button class="primary-btn" onclick="addMemory()">Save memory</button>
+      </div>
+
+      <div id="memoryList"></div>
+    </section>
+
+    <!-- MOODS -->
+    <section class="page" id="moods">
+      <h1 class="page-heading">Today's mood ☾</h1>
+      <p class="page-intro">A little check-in with yourself.</p>
+
+      <div class="form-card">
+        <h3>How are you feeling today?</h3>
+
+        <div class="mood-options">
+          <button class="mood" onclick="chooseMood(this,'Happy')">☀️<br>Happy</button>
+          <button class="mood" onclick="chooseMood(this,'Loved')">♡<br>Loved</button>
+          <button class="mood" onclick="chooseMood(this,'Calm')">☁️<br>Calm</button>
+          <button class="mood" onclick="chooseMood(this,'Sad')">🌧️<br>Sad</button>
+          <button class="mood" onclick="chooseMood(this,'Tired')">🌙<br>Tired</button>
+          <button class="mood" onclick="chooseMood(this,'Excited')">✨<br>Excited</button>
+        </div>
+
+        <label>A little note (optional)</label>
+        <textarea id="moodNote" placeholder="Anything on your mind?"></textarea>
+
+        <button class="primary-btn" onclick="saveMood()">Save today's mood</button>
+      </div>
+
+      <div id="moodList"></div>
+    </section>
+
+    <!-- LETTERS -->
+    <section class="page" id="letters">
+      <h1 class="page-heading">Little letters ✉</h1>
+      <p class="page-intro">Some words deserve to be kept.</p>
+
+      <div class="form-card">
+        <h3>Write a letter</h3>
+
+        <label>Letter title</label>
+        <input id="letterTitle" placeholder="Something I want to say">
+
+        <label>Your letter</label>
+        <textarea id="letterText" placeholder="Write from your heart..."></textarea>
+
+        <button class="primary-btn" onclick="addLetter()">Save letter</button>
+      </div>
+
+      <div id="letterList"></div>
+    </section>
+
+    <!-- DIARY -->
+    <section class="page" id="diary">
+      <h1 class="page-heading">My little diary</h1>
+      <p class="page-intro">A quiet place for your own thoughts.</p>
+
+      <div class="form-card">
+        <h3>Today's page</h3>
+
+        <label>Entry title</label>
+        <input id="diaryTitle" placeholder="A day to remember">
+
+        <label>Your thoughts</label>
+        <textarea id="diaryText" placeholder="Dear diary..."></textarea>
+
+        <button class="primary-btn" onclick="addDiary()">Save entry</button>
+      </div>
+
+      <div id="diaryList"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="settings">
+      <h1 class="page-heading">Settings ⚙</h1>
+      <p class="page-intro">Make this little world yours.</p>
+
+      <div class="form-card">
+        <h3>Your details</h3>
+
+        <label>First person's name</label>
+        <input id="nameOne" placeholder="First name">
+
+        <label>Second person's name</label>
+        <input id="nameTwo" placeholder="Second name">
+
+        <label>Your special date</label>
+        <input id="specialDate" type="date">
+
+        <button class="primary-btn" onclick="saveSettings()">Save changes</button>
+      </div>
+
+      <div class="form-card">
+        <h3>Your data</h3>
+        <p>Download a backup of your Miora data as a JSON file.</p>
+        <button class="secondary-btn" onclick="exportData()">Export backup</button>
+        <button class="delete-btn" onclick="clearData()">Clear all local data</button>
+      </div>
+
+      <div class="note">
+        Important: This starter version saves information in this
+        browser only. It does not yet have secure accounts, cloud
+        syncing, partner linking or private online chat. Do not save
+        sensitive information here. Clearing browser data may erase
+        your entries. Firebase connection and security rules must be
+        added before using it as a genuinely private shared app.
+      </div>
+    </section>
+
+    <footer>MIORA · A LITTLE WORLD OF YOUR OWN</footer>
+  </main>
+</div>
+
+<script>
+// ------------------------------------
+// MIORA — BASIC APP FUNCTIONS
+// ------------------------------------
+
+const getData = (key) => {
+  try {
+    return JSON.parse(localStorage.getItem(key)) || [];
+  } catch {
+    return [];
+  }
+};
+
+const saveData = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
+
+function showPage(pageName) {
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.remove('active');
+  });
+
+  document.querySelectorAll('.nav-btn').forEach(button => {
+    button.classList.remove('active');
+  });
+
+  document.getElementById(pageName).classList.add('active');
+
+  const activeButton = document.querySelector(
+    `.nav-btn[data-page="${pageName}"]`
+  );
+
+  if (activeButton) activeButton.classList.add('active');
+
+  updateDashboard();
+}
+
+document.querySelectorAll('.nav-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    showPage(button.dataset.page);
+  });
+});
+
+// ------------------------------------
+// SETTINGS
+// ------------------------------------
+
+function loadSettings() {
+  const settings = getData('mioraSettings');
+
+  if (settings.length) {
+    const data = settings[0];
+
+    document.getElementById('nameOne').value = data.nameOne || '';
+    document.getElementById('nameTwo').value = data.nameTwo || '';
+    document.getElementById('specialDate').value = data.specialDate || '';
+  }
+
+  updateDashboard();
+}
+
+function saveSettings() {
+  const settings = {
+    nameOne: document.getElementById('nameOne').value.trim(),
+    nameTwo: document.getElementById('nameTwo').value.trim(),
+    specialDate: document.getElementById('specialDate').value
+  };
+
+  saveData('mioraSettings', [settings]);
+
+  updateDashboard();
+  alert('Your Miora settings have been saved.');
+}
+
+// ------------------------------------
+// DAY COUNTER
+// ------------------------------------
+
+function calculateDays(dateString) {
+  if (!dateString) return '—';
+
+  const start = new Date(dateString + 'T00:00:00');
+  const today = new Date();
+
+  if (Number.isNaN(start.getTime()) || start > today) return '—';
+
+  const difference = today - start;
+  return Math.floor(difference / (1000 * 60 * 60 * 24)) + 1;
+}
+
+// ------------------------------------
+// MEMORIES
+// ------------------------------------
+
+async function addMemory() {
+  const title = document.getElementById('memoryTitle').value.trim();
+  const date = document.getElementById('memoryDate').value;
+  const content = document.getElementById('memoryText').value.trim();
+  const file = document.getElementById('memoryPhoto').files[0];
+
+  if (!title || !content) {
+    alert('Please add a title and your memory.');
+    return;
+  }
+
+  let photo = '';
+
+  if (file) {
+    if (file.size > 1024 * 1024) {
+      alert('Please choose a photo smaller than 1 MB.');
+      return;
+    }
+
+    photo = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const memories = getData('mioraMemories');
+
+  memories.unshift({
+    id: Date.now(),
+    title,
+    date,
+    content,
+    photo
+  });
+
+  saveData('mioraMemories', memories);
+
+  document.getElementById('memoryTitle').value = '';
+  document.getElementById('memoryDate').value = '';
+  document.getElementById('memoryText').value = '';
+  document.getElementById('memoryPhoto').value = '';
+
+  renderMemories();
+  updateDashboard();
+
+  alert('Memory saved!');
+}
+
+function renderMemories() {
+  const memories = getData('mioraMemories');
+  const list = document.getElementById('memoryList');
+
+  if (!memories.length) {
+    list.innerHTML = '<p class="empty">Your memories will appear here.</p>';
+    return;
+  }
+
+  list.innerHTML = memories.map(memory => `
+    <div class="entry">
+      <h3>${escapeHTML(memory.title)}</h3>
+      <small>${escapeHTML(memory.date || 'A special day')}</small>
+      <p>${escapeHTML(memory.content)}</p>
+      ${memory.photo ? `<img src="${memory.photo}" alt="Memory photo" style="max-width:100%;border-radius:10px;margin-top:10px;">` : ''}
+      <br>
+      <button class="delete-btn" onclick="deleteItem('mioraMemories',${memory.id},renderMemories)">Delete</button>
+    </div>
+  `).join('');
+}
+
+// ------------------------------------
+// MOODS
+// ------------------------------------
+
+let selectedMood = '';
+
+function chooseMood(button, mood) {
+  document.querySelectorAll('.mood').forEach(item => {
+    item.classList.remove('selected');
+  });
+
+  button.classList.add('selected');
+  selectedMood = mood;
+}
+
+function saveMood() {
+  if (!selectedMood) {
+    alert('Please select your mood first.');
+    return;
+  }
+
+  const moods = getData('mioraMoods');
+
+  moods.unshift({
+    id: Date.now(),
+    mood: selectedMood,
+    note: document.getElementById('moodNote').value.trim(),
+    date: new Date().toLocaleDateString()
+  });
+
+  saveData('mioraMoods', moods);
+
+  selectedMood = '';
+  document.getElementById('moodNote').value = '';
+
+  document.querySelectorAll('.mood').forEach(item => {
+    item.classList.remove('selected');
+  });
+
+  renderMoods();
+  alert('Mood saved!');
+}
+
+function renderMoods() {
+  const moods = getData('mioraMoods');
+
+  document.getElementById('moodList').innerHTML = moods.length
+    ? moods.map(item => `
+      <div class="entry">
+        <h3>${escapeHTML(item.mood)}</h3>
+        <small>${escapeHTML(item.date)}</small>
+        <p>${escapeHTML(item.note || 'No extra note.')}</p>
+        <button class="delete-btn" onclick="deleteItem('mioraMoods',${item.id},renderMoods)">Delete</button>
+      </div>
+    `).join('')
+    : '<p class="empty">Your mood check-ins will appear here.</p>';
+}
+
+// ------------------------------------
+// LETTERS
+// ------------------------------------
+
+function addLetter() {
+  const title = document.getElementById('letterTitle').value.trim();
+  const content = document.getElementById('letterText').value.trim();
+
+  if (!title || !content) {
+    alert('Please write a title and letter.');
+    return;
+  }
+
+  const letters = getData('mioraLetters');
+
+  letters.unshift({
+    id: Date.now(),
+    title,
+    content,
+    date: new Date().toLocaleDateString()
+  });
+
+  saveData('mioraLetters', letters);
+
+  document.getElementById('letterTitle').value = '';
+  document.getElementById('letterText').value = '';
+
+  renderLetters();
+  updateDashboard();
+
+  alert('Your letter has been saved.');
+}
+
+function renderLetters() {
+  const letters = getData('mioraLetters');
+
+  document.getElementById('letterList').innerHTML = letters.length
+    ? letters.map(letter => `
+      <div class="entry">
+        <h3>${escapeHTML(letter.title)}</h3>
+        <small>${escapeHTML(letter.date)}</small>
+        <p>${escapeHTML(letter.content)}</p>
+        <button class="delete-btn" onclick="deleteItem('mioraLetters',${letter.id},renderLetters)">Delete</button>
+      </div>
+    `).join('')
+    : '<p class="empty">Your letters will appear here.</p>';
+}
+
+// ------------------------------------
+// PRIVATE DIARY
+// ------------------------------------
+
+function addDiary() {
+  const title = document.getElementById('diaryTitle').value.trim();
+  const content = document.getElementById('diaryText').value.trim();
+
+  if (!title || !content) {
+    alert('Please add a title and your thoughts.');
+    return;
+  }
+
+  const entries = getData('mioraDiary');
+
+  entries.unshift({
+    id: Date.now(),
+    title,
+    content,
+    date: new Date().toLocaleDateString()
+  });
+
+  saveData('mioraDiary', entries);
+
+  document.getElementById('diaryTitle').value = '';
+  document.getElementById('diaryText').value = '';
+
+  renderDiary();
+  updateDashboard();
+
+  alert('Diary entry saved.');
+}
+
+function renderDiary() {
+  const entries = getData('mioraDiary');
+
+  document.getElementById('diaryList').innerHTML = entries.length
+    ? entries.map(entry => `
+      <div class="entry">
+        <h3>${escapeHTML(entry.title)}</h3>
+        <small>${escapeHTML(entry.date)}</small>
+        <p>${escapeHTML(entry.content)}</p>
+        <button class="delete-btn" onclick="deleteItem('mioraDiary',${entry.id},renderDiary)">Delete</button>
+      </div>
+    `).join('')
+    : '<p class="empty">Your diary pages will appear here.</p>';
+}
+
+// ------------------------------------
+// DELETE ITEMS
+// ------------------------------------
+
+function deleteItem(key, id, renderFunction) {
+  if (!confirm('Are you sure you want to delete this entry?')) return;
+
+  const items = getData(key).filter(item => item.id !== id);
+
+  saveData(key, items);
+  renderFunction();
+  updateDashboard();
+}
+
+// ------------------------------------
+// DASHBOARD
+// ------------------------------------
+
+function updateDashboard() {
+  const settings = getData('mioraSettings')[0] || {};
+
+  const first = settings.nameOne || 'Your';
+  const second = settings.nameTwo || 'Story';
+
+  document.getElementById('coupleNames').textContent =
+    first + ' & ' + second;
+
+  document.getElementById('topGreeting').textContent =
+    'Welcome, ' + first;
+
+  const days = calculateDays(settings.specialDate);
+
+  document.getElementById('homeDays').textContent = days;
+  document.getElementById('togetherDays').textContent = days;
+
+  document.getElementById('memoryCount').textContent =
+    getData('mioraMemories').length + ' memories';
+
+  document.getElementById('letterCount').textContent =
+    getData('mioraLetters').length + ' letters';
+
+  document.getElementById('diaryCount').textContent =
+    getData('mioraDiary').length + ' entries';
+}
+
+// ------------------------------------
+// EXPORT BACKUP
+// ------------------------------------
+
+function exportData() {
+  const backup = {
+    settings: getData('mioraSettings'),
+    memories: getData('mioraMemories'),
+    moods: getData('mioraMoods'),
+    letters: getData('mioraLetters'),
+    diary: getData('mioraDiary')
+  };
+
+  const file = new Blob(
+    [JSON.stringify(backup, null, 2)],
+    { type: 'application/json' }
+  );
+
+  const url = URL.createObjectURL(file);
+  const link = document.createElement('a');
+
+  link.href = url;
+  link.download = 'miora-backup.json';
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
+// ------------------------------------
+// CLEAR DATA
+// ------------------------------------
+
+function clearData() {
+  const confirmed = confirm(
+    'This will permanently clear all Miora data saved in this browser. Continue?'
+  );
+
+  if (!confirmed) return;
+
+  [
+    'mioraSettings',
+    'mioraMemories',
+    'mioraMoods',
+    'mioraLetters',
+    'mioraDiary'
+  ].forEach(key => localStorage.removeItem(key));
+
+  loadEverything();
+  alert('Local Miora data cleared.');
+}
+
+// ------------------------------------
+// SAFE TEXT DISPLAY
+// ------------------------------------
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[character]);
+}
+
+// ------------------------------------
+// LOAD APP
+// ------------------------------------
+
+function loadEverything() {
+  loadSettings();
+  renderMemories();
+  renderMoods();
+  renderLetters();
+  renderDiary();
+  updateDashboard();
+}
+
+loadEverything();
+
+</script>
+
+<script type="module">
+  import {
+    auth,
+    db
+  } from "./firebase.js";
+
+  console.log("Miora Firebase connected!");
+  console.log("Authentication:", auth);
+  console.log("Firestore:", db);
+</script>
+
+</body>
+</html>
